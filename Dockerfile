@@ -1,13 +1,14 @@
 FROM php:8.2-apache
 
-# PDO MySQL
+RUN a2dismod mpm_event mpm_worker || true
+
+RUN a2enmod mpm_prefork
+
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Apache rewrite (Slim)
 RUN a2enmod rewrite
 
-# Копіюємо код
 COPY . /var/www/html/
 WORKDIR /var/www/html
 
-EXPOSE 80
+EXPO
