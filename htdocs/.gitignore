@@ -1,0 +1,7 @@
+.idea/
+assets/img/
+
+/vendor/
+/composer.phar
+
+*.Zone.Identifier
