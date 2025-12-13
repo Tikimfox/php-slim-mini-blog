@@ -1,7 +1,14 @@
+# IDE
 .idea/
-assets/img/
+.vscode/
 
+# Composer
 /vendor/
 /composer.phar
 
+# Windows
 *.Zone.Identifier
+Thumbs.db
+desktop.ini
+.DS_Store
+
