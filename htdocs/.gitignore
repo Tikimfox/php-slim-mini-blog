@@ -6,6 +6,13 @@
 /vendor/
 /composer.phar
 
+# Database
+/storage/*.sqlite
+/storage/*.sqlite-journal
+
+# Logs
+/storage/logs/
+
 # Windows
 *.Zone.Identifier
 Thumbs.db
