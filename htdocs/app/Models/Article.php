@@ -56,9 +56,10 @@ class Article
      */
     public function create(array $data): int
     {
+        // Let the database set created_at/updated_at via defaults
         $stmt = $this->db->prepare("
-            INSERT INTO articles (title, content, author, created_at, updated_at)
-            VALUES (:title, :content, :author, datetime('now'), datetime('now'))
+            INSERT INTO articles (title, content, author)
+            VALUES (:title, :content, :author)
         ");
 
         $stmt->execute([
@@ -83,7 +84,7 @@ class Article
             SET title = :title,
                 content = :content,
                 author = :author,
-                updated_at = datetime('now')
+                updated_at = CURRENT_TIMESTAMP
             WHERE id = :id
         ");
 
@@ -106,4 +107,3 @@ class Article
         return $stmt->execute(['id' => $id]);
     }
 }
-

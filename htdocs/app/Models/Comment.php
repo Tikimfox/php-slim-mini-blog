@@ -87,9 +87,10 @@ class Comment
      */
     public function create(array $data): int
     {
+        // Let the database set created_at via default CURRENT_TIMESTAMP
         $stmt = $this->db->prepare("
-            INSERT INTO comments (article_id, author, content, parent_id, created_at)
-            VALUES (:article_id, :author, :content, :parent_id, datetime('now'))
+            INSERT INTO comments (article_id, author, content, parent_id)
+            VALUES (:article_id, :author, :content, :parent_id)
         ");
 
         $stmt->execute([

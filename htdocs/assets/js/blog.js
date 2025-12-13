@@ -18,13 +18,17 @@ async function loadArticles() {
     const container = document.getElementById('articles-container');
 
     try {
+        console.log('Fetching articles from:', `${API_BASE_URL}/articles`);
         const response = await fetch(`${API_BASE_URL}/articles`);
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const result = await response.json();
+        console.log('Received data:', result);
 
         // Clear loading spinner
         container.innerHTML = '';
@@ -59,10 +63,8 @@ async function loadArticles() {
  * Create HTML for article card
  */
 function createArticleCard(article) {
-    // Create excerpt from content (first 150 characters)
-    const excerpt = article.content.length > 150
-        ? article.content.substring(0, 150) + '...'
-        : article.content;
+    // Use description from API (already truncated to 200 chars by backend)
+    const excerpt = article.description || article.content || '';
 
     // Format date
     const date = new Date(article.created_at);

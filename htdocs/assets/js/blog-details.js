@@ -128,6 +128,7 @@ async function loadComments(articleId) {
 
         if (result.success && result.data) {
             const comments = result.data;
+            console.log('Loaded comments:', comments);
 
             // Update count
             const count = comments.length;
@@ -157,20 +158,16 @@ async function loadComments(articleId) {
  * Build hierarchical comments tree (parent comments with replies)
  */
 function buildCommentsTree(comments) {
-    // Separate parent comments and replies
-    const parentComments = comments.filter(c => !c.parent_id);
-    const replies = comments.filter(c => c.parent_id);
-
-    // Build HTML
+    // Backend already returns nested structure with 'replies' array
     let html = '';
 
-    parentComments.forEach(comment => {
+    comments.forEach(comment => {
+        // Add parent comment
         html += buildCommentHTML(comment, false);
 
-        // Find replies for this comment
-        const commentReplies = replies.filter(r => r.parent_id === comment.id);
-        if (commentReplies.length > 0) {
-            commentReplies.forEach(reply => {
+        // Add replies if they exist
+        if (comment.replies && comment.replies.length > 0) {
+            comment.replies.forEach(reply => {
                 html += buildCommentHTML(reply, true);
             });
         }
@@ -304,20 +301,24 @@ function setupReplyForm() {
         submitBtn.textContent = 'Posting...';
 
         try {
+            const payload = {
+                article_id: parseInt(currentArticleId),
+                parent_id: parseInt(parentId),
+                author: author,
+                content: content
+            };
+            console.log('Posting reply:', payload);
+
             const response = await fetch(`${API_BASE_URL}/comments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    article_id: parseInt(currentArticleId),
-                    parent_id: parseInt(parentId),
-                    author: author,
-                    content: content
-                })
+                body: JSON.stringify(payload)
             });
 
             const result = await response.json();
+            console.log('Reply response:', result);
 
             if (response.ok && result.success) {
                 // Success
