@@ -4,10 +4,10 @@
 return [
     'db' => [
         'driver' => 'mysql',
-        'host' => 'mysql',
-        'port' => '3306',
-        'database' => 'miniblog',
+        'host' => 'nozomi.proxy.rlwy.net',
+        'port' => '25233',
+        'database' => 'railway',
         'username' => 'root',
-        'password' => ''
+        'password' => 'UXWwwQAIxzcoeOAGLbTRSiRsDzKlOQUs'
     ]
 ];
