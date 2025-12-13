@@ -2,7 +2,9 @@
     "require": {
         "slim/slim": "^4.13",
         "slim/psr7": "^1.6",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-pdo": "*",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
