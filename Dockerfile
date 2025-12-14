@@ -44,7 +44,7 @@ PORT=${PORT:-80}\n\
 \n\
 # Update Apache ports configuration\n\
 sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf\n\
-sed -i "s/:80>/:${PORT}>/g" /etc/apache2/sites-available/*.conf\n\
+sed -i "s/<VirtualHost \\*:80>/<VirtualHost *:${PORT}>/g" /etc/apache2/sites-available/*.conf\n\
 \n\
 # Start Apache in foreground\n\
 exec apache2-foreground\n\
