@@ -12,7 +12,10 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable required Apache modules (don't touch MPM - base image has correct config)
+# Fix MPM issue - ensure only mpm_prefork is loaded
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true
+
+# Enable required Apache modules
 RUN a2enmod rewrite headers
 
 # Set working directory
@@ -23,6 +26,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy project files
 COPY . /var/www/html
+
+# Copy custom Apache configuration
+COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
@@ -36,26 +42,12 @@ RUN mkdir -p /var/www/html/storage && \
 RUN chown -R www-data:www-data /var/www/html
 
 # Create startup script for Railway PORT support
-RUN echo '#!/bin/bash\n\
-set -e\n\
-\n\
-# Use Railway PORT or default to 80\n\
-PORT=${PORT:-80}\n\
-\n\
-# Update Apache ports configuration\n\
-sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf\n\
-sed -i "s/<VirtualHost \\*:80>/<VirtualHost *:${PORT}>/g" /etc/apache2/sites-available/*.conf\n\
-\n\
-# Start Apache in foreground\n\
-exec apache2-foreground\n\
-' > /usr/local/bin/start-apache.sh && chmod +x /usr/local/bin/start-apache.sh
-
-# Copy custom Apache configuration
-COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+RUN printf '#!/bin/bash\nset -e\nPORT=${PORT:-80}\nsed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf\nsed -i "s/<VirtualHost \\*:80>/<VirtualHost *:${PORT}>/g" /etc/apache2/sites-available/*.conf\nexec apache2-foreground\n' > /usr/local/bin/start-apache.sh && \
+    chmod +x /usr/local/bin/start-apache.sh
 
 # Expose port (Railway uses PORT env variable)
 EXPOSE 80
 
 # Start Apache with Railway PORT support
-CMD ["/bin/bash", "/usr/local/bin/start-apache.sh"]
+CMD ["/usr/local/bin/start-apache.sh"]
 
