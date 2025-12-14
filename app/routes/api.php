@@ -1,6 +1,5 @@
 <?php
 
-global $app;
 
 use App\Controllers\ArticleController;
 use App\Controllers\CommentController;
@@ -49,7 +48,7 @@ $app->get('/', function ($request, $response) {
             'comments' => '/api/articles/{articleId}/comments',
         ],
         'timestamp' => date('Y-m-d H:i:s')
-    ], JSON_PRETTY_PRINT));
+    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -59,7 +58,7 @@ $app->get('/health', function ($request, $response) {
         'status' => 'ok',
         'message' => 'Mini-blog API is running',
         'timestamp' => date('Y-m-d H:i:s')
-    ]));
+    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
