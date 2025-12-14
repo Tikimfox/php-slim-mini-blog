@@ -12,8 +12,10 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Fix MPM issue - ensure only mpm_prefork is loaded
-RUN a2dismod mpm_event mpm_worker 2>/dev/null || true
+# Fix MPM issue - physically remove conflicting MPM modules
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.* && \
+    rm -f /etc/apache2/mods-enabled/mpm_worker.* && \
+    a2enmod mpm_prefork
 
 # Enable required Apache modules
 RUN a2enmod rewrite headers
@@ -42,7 +44,7 @@ RUN mkdir -p /var/www/html/storage && \
 RUN chown -R www-data:www-data /var/www/html
 
 # Create startup script for Railway PORT support
-RUN printf '#!/bin/bash\nset -e\nPORT=${PORT:-80}\nsed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf\nsed -i "s/<VirtualHost \\*:80>/<VirtualHost *:${PORT}>/g" /etc/apache2/sites-available/*.conf\nexec apache2-foreground\n' > /usr/local/bin/start-apache.sh && \
+RUN printf '#!/bin/bash\nset -e\n\n# Remove conflicting MPM modules at runtime\nrm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*\n\n# Ensure mpm_prefork is enabled\nif [ ! -f /etc/apache2/mods-enabled/mpm_prefork.load ]; then\n    a2enmod mpm_prefork\nfi\n\n# Use Railway PORT or default to 80\nPORT=${PORT:-80}\n\n# Update Apache ports configuration\nsed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf\nsed -i "s/<VirtualHost \\*:80>/<VirtualHost *:${PORT}>/g" /etc/apache2/sites-available/*.conf\n\n# Start Apache in foreground\nexec apache2-foreground\n' > /usr/local/bin/start-apache.sh && \
     chmod +x /usr/local/bin/start-apache.sh
 
 # Expose port (Railway uses PORT env variable)
