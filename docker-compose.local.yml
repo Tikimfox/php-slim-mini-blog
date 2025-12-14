@@ -1,0 +1,72 @@
+
+services:
+  # PHP + Apache сервіс
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    container_name: slim_blog_web_local
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - vendor_data:/var/www/html/vendor
+    environment:
+      - MYSQLHOST=db
+      - MYSQLPORT=3306
+      - MYSQLDATABASE=blog_db
+      - MYSQLUSER=root
+      - MYSQLPASSWORD=secret
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - blog_network
+
+  db:
+    image: mysql:8.0
+    container_name: slim_blog_db_local
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: blog_db
+    volumes:
+      # Persistent database storage
+      - db_data:/var/lib/mysql
+      - ./app/Config/schema_mysql.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-psecret"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    networks:
+      - blog_network
+
+  # PHPMyAdmin
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: slim_blog_phpmyadmin_local
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: secret
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - blog_network
+
+volumes:
+  db_data:
+    driver: local
+  vendor_data:
+    driver: local
+
+networks:
+  blog_network:
+    driver: bridge
+

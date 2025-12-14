@@ -1,9 +1,5 @@
 -- MySQL Database Schema for Mini-Blog
 
--- Create database
-CREATE DATABASE IF NOT EXISTS miniblog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-USE miniblog;
 
 -- Articles table
 CREATE TABLE IF NOT EXISTS articles (
@@ -30,7 +26,7 @@ CREATE TABLE IF NOT EXISTS comments (
     INDEX idx_comments_parent (parent_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---Insert sample data
+-- Insert sample data
 INSERT INTO articles (title, content, author) VALUES
 ('Welcome to Mini-Blog', 'This is your first article. You can edit or delete it, or create new articles.', 'Admin'),
 ('Getting Started', 'Learn how to use this mini-blog system. Add articles, comments, and replies to comments.', 'Admin');
