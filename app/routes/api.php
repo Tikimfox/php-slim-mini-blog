@@ -35,8 +35,27 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($articleControlle
     $group->delete('/comments/{id}', [$commentController, 'delete']);
 });
 
-// Root endpoint
+// Frontend Routes - HTML Pages
 $app->get('/', function ($request, $response) {
+    $html = file_get_contents(__DIR__ . '/../../blog.html');
+    $response->getBody()->write($html);
+    return $response->withHeader('Content-Type', 'text/html; charset=utf-8');
+});
+
+$app->get('/blog', function ($request, $response) {
+    $html = file_get_contents(__DIR__ . '/../../blog.html');
+    $response->getBody()->write($html);
+    return $response->withHeader('Content-Type', 'text/html; charset=utf-8');
+});
+
+$app->get('/article/{id}', function ($request, $response, $args) {
+    $html = file_get_contents(__DIR__ . '/../../blog-details.html');
+    $response->getBody()->write($html);
+    return $response->withHeader('Content-Type', 'text/html; charset=utf-8');
+});
+
+// API Info endpoint
+$app->get('/api', function ($request, $response) {
     $response->getBody()->write(json_encode([
         'name' => 'Mini-blog API',
         'version' => '1.0.0',
