@@ -36,6 +36,23 @@ $app->group('/api', function (RouteCollectorProxy $group) use ($articleControlle
     $group->delete('/comments/{id}', [$commentController, 'delete']);
 });
 
+// Root endpoint
+$app->get('/', function ($request, $response) {
+    $response->getBody()->write(json_encode([
+        'name' => 'Mini-blog API',
+        'version' => '1.0.0',
+        'status' => 'running',
+        'endpoints' => [
+            'health' => '/health',
+            'articles' => '/api/articles',
+            'article_by_id' => '/api/articles/{id}',
+            'comments' => '/api/articles/{articleId}/comments',
+        ],
+        'timestamp' => date('Y-m-d H:i:s')
+    ], JSON_PRETTY_PRINT));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 // Health check endpoint
 $app->get('/health', function ($request, $response) {
     $response->getBody()->write(json_encode([

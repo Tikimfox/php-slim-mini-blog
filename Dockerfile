@@ -32,13 +32,17 @@ COPY . /var/www/html
 # Copy custom Apache configuration
 COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 
+# Ensure .htaccess is present and readable
+COPY .htaccess /var/www/html/.htaccess
+
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Create storage directory and set permissions
 RUN mkdir -p /var/www/html/storage && \
     chown -R www-data:www-data /var/www/html/storage && \
-    chmod -R 775 /var/www/html/storage
+    chmod -R 775 /var/www/html/storage && \
+    chmod 644 /var/www/html/.htaccess
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html
