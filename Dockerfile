@@ -1,7 +1,8 @@
 FROM php:8.2-apache
 
-# Вимикаємо ВСІ MPM
-RUN a2dismod mpm_event mpm_worker || true
+RUN a2dismod mpm_event || true && \
+    a2dismod mpm_worker || true && \
+    a2dismod mpm_prefork || true
 
 # Вмикаємо тільки prefork
 RUN a2enmod mpm_prefork
