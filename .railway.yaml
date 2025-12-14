@@ -1,0 +1,12 @@
+# Railway deployment configuration
+version: "1.0"
+
+build:
+  dockerfile: Dockerfile
+
+deploy:
+  startCommand: "apache2-foreground"
+  healthcheckPath: "/"
+  restartPolicyType: "on-failure"
+  restartPolicyMaxRetries: 3
+
