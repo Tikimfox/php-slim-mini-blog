@@ -38,14 +38,14 @@ Nikita Hoshko, Hanna Batura
 ## Links
 
 **Hosting/Working application**
-Railway: https://railway.com/ 
-Mini-Blog: https://php-slim-mini-blog-production.up.railway.app/blog.html
+- Railway: https://railway.com/ 
+- Mini-Blog: https://php-slim-mini-blog-production.up.railway.app/blog.html
 
 **Github**
-Repo: https://github.com/Tikimfox/php-slim-mini-blog
-Pages: https://tikimfox.github.io/php-slim-mini-blog/
+- Repo: https://github.com/Tikimfox/php-slim-mini-blog
+- Pages: https://tikimfox.github.io/php-slim-mini-blog/
 
 **Presentation**
-PDF/PowerPoint: https://vistulaedu-my.sharepoint.com/:p:/g/personal/hbatura1_stu_vistula_edu_pl/IQAmpOLJmL17RbNkc2Bdh92AAUCFpOXcFiAgWZtKU3owys4?e=L9JzJR
-Video:
+- PDF/PowerPoint: https://vistulaedu-my.sharepoint.com/:p:/g/personal/hbatura1_stu_vistula_edu_pl/IQAmpOLJmL17RbNkc2Bdh92AAUCFpOXcFiAgWZtKU3owys4?e=L9JzJR
+- Video:
  
