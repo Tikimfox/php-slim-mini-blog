@@ -47,5 +47,5 @@ Nikita Hoshko, Hanna Batura
 
 **Presentation**
 - PDF/PowerPoint: https://vistulaedu-my.sharepoint.com/:p:/g/personal/hbatura1_stu_vistula_edu_pl/IQAmpOLJmL17RbNkc2Bdh92AAUCFpOXcFiAgWZtKU3owys4?e=L9JzJR
-- Video:
+- Video: https://drive.google.com/drive/folders/1P-vNt8sUftKLooyusaGSSOIHil9bE-Hq?usp=sharing 
  
