@@ -15,6 +15,11 @@ A simple web application for blogging with support for articles, comments, and r
 - ✅ Reply to comments (1 level of nesting)
 - ✅ Display discussion tree with indentation
 
+## Authors
+
+Nikita Hoshko
+Hanna Batura
+
 ## Technologies
 
 **Backend:**
@@ -29,3 +34,19 @@ A simple web application for blogging with support for articles, comments, and r
 - Vanilla JavaScript
 - AJAX for asynchronous requests
 
+## Instruction how to launch locally
+
+## Links
+
+**Hosting/Working application**
+Railway: https://railway.com/ 
+Mini-Blog: https://php-slim-mini-blog-production.up.railway.app/blog.html
+
+**Github**
+Repo: https://github.com/Tikimfox/php-slim-mini-blog
+Pages: https://tikimfox.github.io/php-slim-mini-blog/
+
+**Presentation**
+PDF/PowerPoint: https://vistulaedu-my.sharepoint.com/:p:/g/personal/hbatura1_stu_vistula_edu_pl/IQAmpOLJmL17RbNkc2Bdh92AAUCFpOXcFiAgWZtKU3owys4?e=L9JzJR
+Video:
+ 
