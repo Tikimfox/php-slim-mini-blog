@@ -17,8 +17,7 @@ A simple web application for blogging with support for articles, comments, and r
 
 ## Authors
 
-Nikita Hoshko
-Hanna Batura
+Nikita Hoshko, Hanna Batura
 
 ## Technologies
 
